@@ -29,7 +29,9 @@ class FuncionarioProvider with ChangeNotifier {
 
 
   Future<void> cadastrarFunc(Funcionarios funcionario) async {
-    final url = '${AppUrl.baseUrl}api/Funcionario';
+
+    try {
+final url = '${AppUrl.baseUrl}api/Funcionario';
 
     try {
       await pegarToken();
@@ -61,6 +63,14 @@ class FuncionarioProvider with ChangeNotifier {
     } catch (error) {
       rethrow;
     }
+
+    } catch (e){
+
+         _carregando = false;
+        _menssagem = "Erro ao conectar o servidor!";
+        notifyListeners();
+    }
+    
   }
 
   Future<void> fetchFuncionario() async {
@@ -86,7 +96,9 @@ class FuncionarioProvider with ChangeNotifier {
         notifyListeners();
       }
     } catch (error) {
+      _carregando = false;
       _menssagem = 'Erro de conexão.';
+      notifyListeners();
     }
   }
 
@@ -110,6 +122,7 @@ class FuncionarioProvider with ChangeNotifier {
         notifyListeners();
       }
     } catch (error) {
+      _carregando = false;
       _menssagem = 'Erro de conexão.';
       notifyListeners();
     }
@@ -134,6 +147,7 @@ class FuncionarioProvider with ChangeNotifier {
         notifyListeners();
       }
     } catch (error) {
+      _carregando = false;
       _menssagem = 'Erro de conexão.';
       notifyListeners();
     }

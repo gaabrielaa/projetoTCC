@@ -58,7 +58,9 @@ Future<void> fetchSalas(int idSala) async {
          notifyListeners();
       }
     } catch (error) {
-      rethrow;
+      _carregando = false;
+      _menssagem = 'Erro de conexão.';
+      notifyListeners();
     }
   }
 

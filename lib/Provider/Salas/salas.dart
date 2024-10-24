@@ -163,11 +163,13 @@ Future<void> pegarToken() async {
         notifyListeners();
         return true;
       } else {
-        print("Erro ao associar funcionário: ${response.body}");
+      _menssagem = 'Erro ao associar usuário!';
+      notifyListeners();
         return false;
       }
     } catch (e) {
-
+      _menssagem = 'Erro de conexão!';
+      notifyListeners();
       return false;
     }
   }

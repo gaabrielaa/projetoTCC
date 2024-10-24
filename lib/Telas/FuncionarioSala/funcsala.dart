@@ -54,7 +54,7 @@ class _FuncSalaState extends State<FuncSala> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Center(
-                              child: Text("Nenhuma Funcionário Cadastrado")),
+                              child: Text("Nenhum Funcionário Cadastrado")),
                           TextButton(
                               onPressed: () {
                                 Navigator.push(

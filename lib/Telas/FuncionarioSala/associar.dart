@@ -36,68 +36,75 @@ class _AssociarFuncionarioSalaState extends State<AssociarFuncionarioSala> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Consumer<FuncionarioProvider>(
-          builder: (context, funcProvider, child) {
-            if (funcProvider.funcionarios.isEmpty) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return Column(
-              children: [
-                const Text(
-                  "Selecione um Funcionário",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                DropdownButton<int>(
-                  isExpanded: true,
-                  value: _funcionarioSelecionado,
-                  hint: const Text("Selecione um Funcionário"),
-                  items: funcProvider.funcionarios.map((funcionario) {
-                    return DropdownMenuItem<int>(
-                      value: funcionario.funcionarioId,
-                      child: Text(funcionario.nome),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _funcionarioSelecionado = value;
-                    });
-                  },
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _funcionarioSelecionado != null
-                      ? () async {
-                          final sucesso = await Provider.of<AmbienteProvider>(
-                                  context,
-                                  listen: false)
-                              .associarFuncionarioSala(
-                                  funcionarioId: _funcionarioSelecionado!,
-                                  salaId: widget.salaId);
-
-                          if (sucesso) {
-                            showMessage(
-                                message: "Funcionário associado com sucesso!",
-                                // ignore: use_build_context_synchronously
-                                context: context);
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
-                          } else {
-                            showMessage(
-                                message: "Falha ao associar funcionário.",
-                                // ignore: use_build_context_synchronously
-                                context: context);
-                          }
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
+        child: Container(
+          decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [primaryColor, Colors.white])),
+          child: Consumer<FuncionarioProvider>(
+            builder: (context, funcProvider, child) {
+              if (funcProvider.funcionarios.isEmpty) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return Column(
+                children: [
+                  const Text(
+                    "Selecione um Funcionário",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  child: const Text("Associar"),
-                ),
-              ],
-            );
-          },
+                  const SizedBox(height: 10),
+                  DropdownButton<int>(
+                    isExpanded: true,
+                    value: _funcionarioSelecionado,
+                    hint: const Text("Selecione um Funcionário"),
+                    items: funcProvider.funcionarios.map((funcionario) {
+                      return DropdownMenuItem<int>(
+                        value: funcionario.funcionarioId,
+                        child: Text(funcionario.nome),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _funcionarioSelecionado = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _funcionarioSelecionado != null
+                        ? () async {
+                            final sucesso = await Provider.of<AmbienteProvider>(
+                                    context,
+                                    listen: false)
+                                .associarFuncionarioSala(
+                                    funcionarioId: _funcionarioSelecionado!,
+                                    salaId: widget.salaId);
+          
+                            if (sucesso) {
+                              showMessage(
+                                  message: "Funcionário associado com sucesso!",
+                                  // ignore: use_build_context_synchronously
+                                  context: context);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              showMessage(
+                                  message: "Falha ao associar funcionário.",
+                                  // ignore: use_build_context_synchronously
+                                  context: context);
+                            }
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                    ),
+                    child: const Text("Associar"),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

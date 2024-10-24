@@ -24,7 +24,13 @@ class _ExibirSalasState extends State<ExibirSalas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(
-          actions: [TextButton(onPressed: (){ Navigator.pushNamed(context, '/cadastrarsalas');}, child: const Text("Adicionar Sala"))],
+          actions: [TextButton(onPressed: (){ Navigator.pushNamed(context, '/cadastrarsalas');}, child: Text(
+                  "+ Salas",
+                  style: TextStyle(
+                    color: branco,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ))],
           title: Text("Exibir Funcionarios nas Salas", style: TextStyle(color: branco)),
           centerTitle: true,
           backgroundColor: primaryColor,

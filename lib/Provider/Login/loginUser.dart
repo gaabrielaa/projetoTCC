@@ -36,48 +36,54 @@ class Logar extends ChangeNotifier {
     notifyListeners();
   }
 
-//Criar usuário
+//Logar usuário
   Future logarUsuario(String email, String password) async {
-    _carregando = true;
-    notifyListeners();
-    String url = '${AppUrl.baseUrl}api/UserLogin/Login';
-    debugPrint(url);
-
-    Map<String, dynamic> requestBody = {
-      "email": email,
-      "password": password,
-      "cpf": "0"
-    };
-
-    http.Response response = await http.post(
-      Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(requestBody),
-    );
-
-    _carregando = false;
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      Map dados = jsonDecode(response.body);
-
-      SharedPreferences idUser = await SharedPreferences.getInstance();
-      var ds = GetId(idUser);
-      await ds.gravarToken(dados['token']);
-      await ds.gravarNivel(dados['roles'][0]);
-
-      if (dados['roles'][0] == "Basic") {
-        _rota = "/dashfunc";
-      } else {
-        _rota = "/dashboard";
-      }
-
-      _logado = true;
+    try {
+      _carregando = true;
       notifyListeners();
-    } else {
-      _msgError = 'Usuario e senha invalidos';
-      _logado = false;
+      String url = '${AppUrl.baseUrl}api/UserLogin/Login';
+      debugPrint(url);
+
+      Map<String, dynamic> requestBody = {
+        "email": email,
+        "password": password,
+        "cpf": "0"
+      };
+
+      http.Response response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      _carregando = false;
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Map dados = jsonDecode(response.body);
+
+        SharedPreferences idUser = await SharedPreferences.getInstance();
+        var ds = GetId(idUser);
+        await ds.gravarToken(dados['token']);
+        await ds.gravarNivel(dados['roles'][0]);
+
+        if (dados['roles'][0] == "Basic") {
+          _rota = "/dashfunc";
+        } else {
+          _rota = "/dashboard";
+        }
+
+        _logado = true;
+        notifyListeners();
+      } else {
+        _msgError = 'Usuario e senha invalidos';
+        _logado = false;
+        notifyListeners();
+      }
+    } catch (e) {
+       _carregando = false;
+      _msgError = 'Erro canectar ao servidor!';
       notifyListeners();
     }
   }
