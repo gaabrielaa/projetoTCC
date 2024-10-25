@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 class FuncSalaProvider with ChangeNotifier{
 
 
-  bool _cadastrado = false;
+  final _cadastrado = false;
   bool get cadastrado => _cadastrado;
 
   bool _carregando = false;
@@ -37,7 +37,7 @@ Future<void> pegarToken() async {
 
 
 Future<void> fetchSalas(int idSala) async {
-      final url = '${AppUrl.baseUrl}api/Sala/Funcionario/$idSala';
+      final url = '${AppUrl.baseUrl}api/Sala/Sala/$idSala';
     try {
       await pegarToken();
       final response = await http.get(Uri.parse(url),

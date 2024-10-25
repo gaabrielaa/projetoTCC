@@ -28,9 +28,9 @@ class FuncionarioProvider with ChangeNotifier {
   }
 
 
-  Future<void> cadastrarFunc(Funcionarios funcionario) async {
+Future<void> cadastrarFunc(Funcionarios funcionario) async {
 
-    try {
+try {
 final url = '${AppUrl.baseUrl}api/Funcionario';
 
     try {
@@ -45,7 +45,6 @@ final url = '${AppUrl.baseUrl}api/Funcionario';
       );
 
       
-
       // cadastro de login de usuário
       if (response.statusCode == 200 || response.statusCode == 201) {
 
@@ -61,7 +60,9 @@ final url = '${AppUrl.baseUrl}api/Funcionario';
         notifyListeners();
       }
     } catch (error) {
-      rethrow;
+        _cadastrado = false;
+        _carregando = false;
+        _menssagem = "Dados Incorretos ou Erro de Servidor";
     }
 
     } catch (e){

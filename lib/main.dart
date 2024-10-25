@@ -9,7 +9,6 @@ import 'package:goldsecurity/Telas/CadastrarSalas/cadastrarsalas.dart';
 import 'package:goldsecurity/Telas/Dashboard/dashboard.dart';
 import 'package:goldsecurity/Telas/ExibirFuncionarios/exibirfuncionarios.dart';
 import 'package:goldsecurity/Telas/ExibirSalas/exibirsalas.dart';
-import 'package:goldsecurity/Telas/FuncionarioSala/associar.dart';
 import 'package:goldsecurity/Telas/FuncionarioSala/funcsala.dart';
 import 'package:goldsecurity/Telas/Login/homepage.dart';
 import 'package:provider/provider.dart';
