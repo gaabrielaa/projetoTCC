@@ -17,68 +17,86 @@ class CadastrarSalas extends StatefulWidget {
 
 class _CadastrarSalasState extends State<CadastrarSalas> {
   final _nomeController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    if (widget.ambiente != null){
+    if (widget.ambiente != null) {
       _nomeController.text = widget.ambiente!.nomeSala;
     }
-  }  
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
-          actions: [Image(image: AssetImage('assets/images/logoTcc2.png'),)],
-          title: Text("Cadastrar Salas", style: TextStyle(color: branco)),
-          centerTitle: true,
-          backgroundColor: primaryColor,
+    return Scaffold(
+      appBar: AppBar(
+        actions: [Image(image: AssetImage('assets/images/logoTcc2.png'))],
+        title: Text("Cadastrar Salas", style: TextStyle(color: branco)),
+        centerTitle: true,
+        backgroundColor: primaryColor,
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [primaryColor, Colors.white],
+          ),
         ),
-        body: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [primaryColor, Colors.white])),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-              child:  Consumer<AmbienteProvider>(
-              builder: (context, salaProvider, child) {
-                return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-          
-                customTextField(
-                  title: 'Nome',
-                  hint: 'Digite seu nome',
-                  tcontroller: _nomeController,
-                  ),
-          
-              const SizedBox(height: 15),
-                  
-              const SizedBox(height: 10),
-          
-              customButton(
-                text: 'Cadastrar', 
-                tap: () async {
-                final ambiente = Sala(salaId: widget.ambiente?.salaId, nomeSala: _nomeController.text, acionado: false);
-                 if (widget.ambiente == null) {
-                          await salaProvider.cadastrarAmbiente(ambiente);
-                        } else {
-                          await salaProvider.atualizarAmbiente(ambiente);
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Consumer<AmbienteProvider>(
+            builder: (context, salaProvider, child) {
+              return Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    customTextField(
+                      title: 'Nome',
+                      hint: 'Digite seu nome',
+                      tcontroller: _nomeController,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'O campo Nome é obrigatório.';
                         }
-                    
-              
-                showMessage( message: salaProvider.menssagem, context: context);
-                Navigator.pop(context);
-              }
-              ),
-             ]
-            );}),
-          )
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    customButton(
+                      text: 'Cadastrar',
+                      tap: () async {
+                        if (_formKey.currentState!.validate()) {
+                          final ambiente = Sala(
+                            salaId: widget.ambiente?.salaId,
+                            nomeSala: _nomeController.text.trim(),
+                            acionado: false,
+                          );
+                          if (widget.ambiente == null) {
+                            await salaProvider.cadastrarAmbiente(ambiente);
+                          } else {
+                            await salaProvider.atualizarAmbiente(ambiente);
+                          }
+
+                          showMessage(
+                            message: salaProvider.menssagem,
+                            context: context,
+                          );
+                          Navigator.of(context).pushNamed("/exibirsalas");
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
+      ),
     );
   }
 }

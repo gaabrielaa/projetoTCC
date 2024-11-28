@@ -30,8 +30,10 @@ class _ExibirSalasState extends State<ExibirSalas> {
                     color: branco,
                     fontWeight: FontWeight.w600,
                   ),
-                ))],
-          title: Text("Exibir Funcionarios nas Salas", style: TextStyle(color: branco)),
+                )
+                )
+                ],
+          title: Text("Funcionarios nas Salas", style: TextStyle(color: branco)),
           centerTitle: true,
           backgroundColor: primaryColor,
         ),
@@ -64,8 +66,8 @@ class _ExibirSalasState extends State<ExibirSalas> {
                                       ),
                                     );
                   },
-                  title: Text(ambiente.nomeSala),
-                  subtitle: ambiente.acionado ? const Text('Aberto'):const Text('fechado') ,
+                  title: Text(ambiente.nomeSala, style: TextStyle(color: branco),),
+                  subtitle: ambiente.acionado ? const Text('Aberto', style: TextStyle(color: Colors.white38)): const Text('fechado', style: TextStyle(color: Colors.white38)),
                   trailing:  Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -78,7 +80,7 @@ class _ExibirSalasState extends State<ExibirSalas> {
                                       ),
                                     );
 
-                      }, icon: const Icon(Icons.edit)),
+                      }, icon: const Icon(Icons.edit,)),
                       IconButton(onPressed: () async{
 
                            // Exibe a confirmação antes de excluir
@@ -112,9 +114,6 @@ class _ExibirSalasState extends State<ExibirSalas> {
                                      showMessage(message: ambienteProvider.menssagem, context: context);
                             
                                     }
-
-                                    
-              
 
                       }, icon: const Icon(Icons.delete)),
                     ],

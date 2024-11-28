@@ -61,9 +61,9 @@ class _ExibirFuncionariosState extends State<ExibirFuncionarios> {
                     itemBuilder: (context, index) {
                       final funcionario = funcProvider.funcionarios[index];
                       return ListTile(
-                          title: Text(funcionario.nome),
+                          title: Text(funcionario.nome, style: TextStyle(color:branco),),                          
                           subtitle: Text(
-                              "${funcionario.email}${funcionario.password} ${funcionario.cpf}"),
+                              "${funcionario.email} ${funcionario.funcionarioId}", style: const TextStyle(color: Colors.white38),),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -108,7 +108,7 @@ class _ExibirFuncionariosState extends State<ExibirFuncionarios> {
                                       await funcProvider.deletarFuncionario(
                                               funcionario.funcionarioId as int);
                                     }
-
+                                    
                                      showMessage(message: funcProvider.menssagem, context: context);
                         Navigator.pop(context);
                                   },

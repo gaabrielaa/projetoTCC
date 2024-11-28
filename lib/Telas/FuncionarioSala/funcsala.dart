@@ -27,12 +27,21 @@ class _FuncSalaState extends State<FuncSala> {
           actions: [
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/cadastrarsalas');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AssociarFuncionarioSala(
+                          salaId: widget.salaescolhida as int),
+                    ),
+                  );
                 },
-                child: const Text("Adicionar Sala"))
+                child: Text(
+                  "Adicionar Funcionário",
+                  style: TextStyle(color: branco),
+                )),
           ],
-          title: Text("Exibir Funcionarios nas Salas",
-              style: TextStyle(color: branco)),
+          title:
+              Text("Funcionarios nas Salas", style: TextStyle(color: branco)),
           centerTitle: true,
           backgroundColor: primaryColor,
         ),
@@ -62,7 +71,8 @@ class _FuncSalaState extends State<FuncSala> {
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         AssociarFuncionarioSala(
-                                            salaId: widget.salaescolhida as int),
+                                            salaId:
+                                                widget.salaescolhida as int),
                                   ),
                                 );
                               },
@@ -76,16 +86,49 @@ class _FuncSalaState extends State<FuncSala> {
                         itemBuilder: (context, index) {
                           final funcionario = salaProvider.funcionarios[index];
                           return ListTile(
-                              title:  Text(funcionario.nome),
-                              subtitle: const Text("lele"),
+                              title: Text(funcionario.nome, style: TextStyle(color: branco)),
+                              subtitle: Text(funcionario.email, style: const TextStyle(color: Colors.white38),),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.edit)),
-                                  IconButton(
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        final confirm = await showDialog<bool>(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: const Text('Confirmação'),
+                                            content: const Text(
+                                                'Tem certeza que deseja excluir este funcionário?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, false),
+                                                child: const Text('Cancelar'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, true),
+                                                child: const Text('Confirmar'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+
+                                        if (confirm == true) {
+                                          await Provider.of<FuncSalaProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .deletarFuncionario(funcionario
+                                                  .funcionarioId as int, widget.salaescolhida as int );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                content: Text(context
+                                                    .read<FuncSalaProvider>()
+                                                    .menssagem)),
+                                          );
+                                        }
+                                      },
                                       icon: const Icon(Icons.delete)),
                                 ],
                               ));

@@ -139,7 +139,7 @@ final url = '${AppUrl.baseUrl}api/Funcionario';
         'Authorization': 'Bearer $token',
       });
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 204) {
          _menssagem = 'Usuário Deletado com Sucesso';
         fetchFuncionario(); 
         notifyListeners();

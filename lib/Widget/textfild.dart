@@ -5,36 +5,42 @@ Widget customTextField({
   String? title,
   String? hint,
   TextEditingController? tcontroller,
+  String? Function(String?)? validator, // Adicionado o parâmetro validator
 }) {
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Container(
-        alignment: Alignment.centerLeft,
-        margin: const EdgeInsets.symmetric(vertical: 10),
+      if (title != null)
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: const EdgeInsets.symmetric(vertical: 10),
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          
-        child: Text(title!,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-            color: branco,
-          )
+          child: Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: branco,
+            ),
+          ),
+        ),
+      TextFormField(
+        controller: tcontroller,
+        style: TextStyle(color: branco),
+        validator: validator, // Adicionada a validação aqui
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: const TextStyle(color: Colors.white38),
+          filled: true,
+          fillColor: primaryColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(
+              color: primaryColor, // Cor da borda
+              width: 2.0, // Espessura da borda
+            ),
+          ),
         ),
       ),
-      TextFormField(
-          controller: tcontroller,
-          decoration: InputDecoration(
-            hintText: hint,
-            filled: true,
-            fillColor: primaryColor,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(
-                color: primaryColor, // Cor da borda
-                width: 2.0, // Espessura da borda
-              ),
-          
-          ), )
-      )
     ],
   );
 }
