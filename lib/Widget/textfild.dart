@@ -5,7 +5,8 @@ Widget customTextField({
   String? title,
   String? hint,
   TextEditingController? tcontroller,
-  String? Function(String?)? validator, // Adicionado o parâmetro validator
+  String? Function(String?)? validator, 
+  bool? obscureTexto = false,// Adicionado o parâmetro validator
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,6 +27,7 @@ Widget customTextField({
       TextFormField(
         controller: tcontroller,
         style: TextStyle(color: branco),
+        obscureText: obscureTexto as bool,
         validator: validator, // Adicionada a validação aqui
         decoration: InputDecoration(
           hintText: hint,
